@@ -2,13 +2,16 @@
 <template>
   <div class="app font-monospace">
     <div class="content">
-      <AppInfo />
+      <AppInfo
+        :allMoviesCount="movies.length"
+        :favouriteMoviesCount="movies.filter((ele) => ele.favourite).length"
+      />
       <div class="search-panel">
         <SearchPanel />
         <AppFilter />
       </div>
-      <MovieList />
-      <MovieAddForm />
+      <MovieList :movies="movies" @onToggle="onToggleHandler" @onRemove="onRemoveHandler" />
+      <MovieAddForm @createMovie="createMovie" />
     </div>
   </div>
 </template>
@@ -28,6 +31,40 @@ export default {
     AppFilter,
     MovieList,
     MovieAddForm,
+  },
+  data() {
+    return {
+      movies: [
+        { id: 1, name: 'Omar', viewers: 811, favourite: false, like: true },
+        { id: 2, name: 'Empire of Usman', viewers: 411, favourite: true, like: false },
+        { id: 3, name: 'Ertuglur', viewers: 521, favourite: false, like: true },
+      ],
+    }
+  },
+  methods: {
+    createMovie(item) {
+      this.movies.push(item)
+    },
+    onToggleHandler({ id, prop }) {
+      this.movies = this.movies.map((item) => {
+        if (item.id === id) {
+          return { ...item, [prop]: !item[prop] }
+        }
+        return item
+      })
+    },
+    onRemoveHandler(id) {
+      this.movies = this.movies.filter((item) => item.id !== id)
+    },
+    onFavouriteHandler(id) {
+      console.log(id)
+      this.movies = this.movies.map((item) => {
+        if (item.id === id) {
+          item.favourite = !item.favourite
+        }
+        return item
+      })
+    },
   },
 }
 </script>

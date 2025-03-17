@@ -1,12 +1,16 @@
 <template>
   <div class="app-info">
-    <p class="fs-3 text-uppercase">All movies count:0</p>
-    <p class="fs-4 text-uppercase">Viewed movies count: 0</p>
+    <p class="fs-3 text-uppercase">All movies count:{{ allMoviesCount }}</p>
+    <p class="fs-4 text-uppercase">Favourite movies count: {{ favouriteMoviesCount }}</p>
   </div>
 </template>
 
 <script lang="ts">
 export default {
+  props: {
+    allMoviesCount: { type: Number, required: true },
+    favouriteMoviesCount: { type: Number, required: true },
+  },
   name: 'AppInfo',
 }
 </script>
